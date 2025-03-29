@@ -32,8 +32,54 @@ const apiPaths = {
 // Favourite movies storage
 const favouriteMovies = JSON.parse(localStorage.getItem('favouriteMovies')) || [];
 
+// Request notification permission
+function requestNotificationPermission() {
+    if ('Notification' in window) {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                console.log('Notification permission granted.');
+            }
+        });
+    }
+}
+
+// Notify user about new movies
+function notifyNewMovies(newMovies) {
+    newMovies.forEach(movie => {
+        const title = movie.title || movie.name;
+        const options = {
+            body: `New movie available: ${title}`,
+            icon: movie.poster_path ? `${imgPath}${movie.poster_path}` : 'https://via.placeholder.com/300x450?text=No+Poster',
+        };
+        new Notification('New Movie Alert!', options);
+    });
+}
+
+// Check for new movies
+async function checkForNewMovies() {
+    try {
+        const res = await fetch(apiPaths.fetchTrending);
+        const data = await res.json();
+        const trendingMovies = data.results || [];
+        const storedMovies = JSON.parse(localStorage.getItem('trendingMovies')) || [];
+
+        const newMovies = trendingMovies.filter(movie => 
+            !storedMovies.some(stored => stored.id === movie.id)
+        );
+
+        if (newMovies.length > 0) {
+            notifyNewMovies(newMovies);
+            localStorage.setItem('trendingMovies', JSON.stringify(trendingMovies));
+        }
+    } catch (err) {
+        console.error('Error checking for new movies:', err);
+    }
+}
+
 // Initialize the app
 function init() {
+    requestNotificationPermission();
+    setInterval(checkForNewMovies, 3600000); // Check every hour
     fetchAndbuildMovieSection(apiPaths.fetchTrending, 'Trending Now');
     fetchAndbuildMovieSection(apiPaths.fetchPopularMovies, 'Popular Movies');
     fetchAndbuildMovieSection(apiPaths.fetchMoviesList(28), 'Action Movies');
