@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HypeStream - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="movie_8307729.png" type="png/png">
+    <style>
+        .auth-container {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                              url('images/blue.jpeg');
+        }
+        .form-container {
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Success Alert Template -->
+    <div id="success-alert-template" class="hidden">
+        <div class="fixed top-4 right-4 w-80 bg-green-100 border-l-4 border-green-500 text-green-700 px-4 py-3 rounded-r-lg shadow-lg">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="font-medium">Success</h3>
+                    <p class="text-sm">Operation completed successfully</p>
+                </div>
+                <button class="ml-auto text-green-500 hover:text-green-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Alert Template -->
+    <div id="error-alert-template" class="hidden">
+        <div class="fixed top-4 right-4 w-80 bg-red-100 border-l-4 border-red-500 text-red-700 px-4 py-3 rounded-r-lg shadow-lg">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-circle text-red-500 text-xl"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="font-medium">Error</h3>
+                    <p class="text-sm">An error occurred</p>
+                </div>
+                <button class="ml-auto text-red-500 hover:text-red-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Container -->
+    <div id="alert-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Password Reset Modal -->
+    <div id="password-reset-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-gray-800 p-6 rounded-lg w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-4">Reset Password</h2>
+            <form id="reset-password-form">
+                <div class="mb-4">
+                    <label for="reset-email" class="block mb-2">Email</label>
+                    <input type="email" id="reset-email" required autocomplete="username" class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded">
+                </div>
+                <div class="mb-4 relative">
+                    <label for="new-password" class="block mb-2">New Password</label>
+                    <input type="password" id="new-password" required autocomplete="new-password" class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded pr-10">
+                    <button type="button" class="absolute right-3 top-9 text-gray-400 hover:text-white">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" id="cancel-reset" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded">
+                        Reset Password
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="auth-container min-h-screen flex items-center justify-center bg-cover bg-center">
+        <div class="form-container bg-gray-800 bg-opacity-70 p-10 rounded-lg w-full max-w-md">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold mb-2">Welcome to <span class="text-red-500">HypeStream</span></h1>
+                <p class="text-gray-300">Your favorite movies in one place</p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form">
+                <h2 class="text-2xl font-semibold mb-6 text-center">Sign In</h2>
+                <form id="login" class="space-y-4">
+                    <div>
+                        <label for="login-email" class="block mb-2">Email</label>
+                        <input type="email" id="login-email" required autocomplete="username"
+                               class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                    </div>
+                    <div>
+                        <label for="login-password" class="block mb-2">Password</label>
+                        <div class="relative">
+                            <input type="password" id="login-password" required autocomplete="current-password"
+                                   class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-red-500 pr-10">
+                            <button type="button" onclick="togglePasswordVisibility('login-password')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember-me" class="mr-2">
+                            <label for="remember-me">Remember me</label>
+                        </div>
+                    <a href="#" id="forgot-password" class="text-red-400 hover:text-red-300 text-sm">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="w-full bg-red-600 hover:bg-red-700 py-2 px-4 rounded font-medium transition duration-200">
+                        Sign In
+                    </button>
+                </form>
+                <p class="mt-4 text-center text-gray-300">
+                    New to MovieStream? <a href="#" id="show-signup" class="text-red-400 hover:text-red-300">Create an account</a>
+                </p>
+            </div>
+
+            <!-- Signup Form (Hidden by default) -->
+            <div id="signup-form" class="hidden">
+                <h2 class="text-2xl font-semibold mb-6 text-center">Create Account</h2>
+                <form id="signup" class="space-y-4">
+                    <div>
+                        <label for="signup-name" class="block mb-2">Full Name</label>
+                        <input type="text" id="signup-name" required autocomplete="name"
+                               class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                    </div>
+                    <div>
+                        <label for="signup-email" class="block mb-2">Email</label>
+                        <input type="email" id="signup-email" required autocomplete="username"
+                               class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                    </div>
+                    <div>
+                        <label for="signup-password" class="block mb-2">Password</label>
+                        <input type="password" id="signup-password" required autocomplete="new-password"
+                               class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <p class="text-xs text-gray-400 mt-1">Minimum 8 characters</p>
+                    </div>
+                    <div>
+                        <label for="confirm-password" class="block mb-2">Confirm Password</label>
+                        <input type="password" id="confirm-password" required autocomplete="new-password"
+                               class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="terms" required class="mr-2">
+                        <label for="terms">I agree to the <a href="#" class="text-red-400 hover:text-red-300">Terms of Service</a></label>
+                    </div>
+                    <button type="submit" class="w-full bg-red-600 hover:bg-red-700 py-2 px-4 rounded font-medium transition duration-200">
+                        Sign Up
+                    </button>
+                </form>
+                <p class="mt-4 text-center text-gray-300">
+                    Already have an account? <a href="#" id="show-login" class="text-red-400 hover:text-red-300">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <script src="script.js"></script>
+</body>
+</html>

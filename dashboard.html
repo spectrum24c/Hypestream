@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HypeStream - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="movie_8307729.png" type="png/png">
+    <style>
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                              url('https://source.unsplash.com/random/1920x1080/?cinema');
+        }
+        *::-webkit-scrollbar {
+  display: none;
+  scroll-behavior: smooth;
+}
+#movies-cont{
+  scroll-behavior: smooth;
+}
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Navigation -->
+    <nav class="bg-gray-800 p-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-film text-red-500 text-2xl"></i>
+            <span class="text-xl font-bold">Hype<span class="text-red-500">Stream</span></span>
+        </div>
+        <div class="flex items-center">
+            <div class="relative group">
+                <img id="profile-pic" src="images/blue.jpeg" 
+                     class="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-600 hover:border-red-500 transition duration-200">
+                <div class="hidden group-hover:block absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-10">
+                    <a href="profile.html" class="block px-4 py-2 text-white hover:bg-gray-700">Profile</a>
+                    <button id="logout-btn" class="w-full text-left px-4 py-2 text-white hover:bg-gray-700">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero bg-cover bg-center py-20 px-4 text-center" style="background-image: url('images/blue.jpeg'); background-position: center; background-repeat: no-repeat; background-size: cover; color: #fff;">
+        <h1 class="text-4xl  font-bold mb-4">Welcome back to HypeStream</h1>
+        <p class="text-xl text-gray-300 mb-8">Continue watching your favorite movies and shows</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="relative max-w-md mx-auto">
+            <input type="text" id="movieSearch" placeholder="Search movies and TV shows..." 
+                   class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 z-10">
+        </div>
+    </div>
+    <div id="search-results-cont" class="fixed inset-0 bg-black bg-opacity-80 z-40 hidden pt-24 overflow-y-auto">
+        <div class="container mx-auto px-4">
+            <button onclick="closeSearchResults()" class="absolute top-4 right-4 bg-gray-700 hover:bg-gray-600 rounded-full w-10 h-10 flex items-center justify-center z-50">
+                ✕
+            </button>
+            <div id="search-results-content" class="pb-8"></div>
+        </div>
+    </div>
+
+    <!-- Player Containers -->
+    <div class="player-container fixed inset-0 bg-black bg-opacity-80 z-50 hidden items-center justify-center p-4">
+        <div class="relative bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto"></div>
+    </div>
+
+    <div id="streaming-cont" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden items-center justify-center"></div>
+    <div class="trailer-container fixed inset-0 bg-black bg-opacity-90 z-50 hidden items-center justify-center"></div>
+
+    <!-- Favourite Section -->
+    <div id="favourite-section" class="container mx-auto px-4 pb-8 hidden"></div>
+
+    <!-- Movies Container -->
+    <div class="container mx-auto px-4 pb-8">
+        <div id="movies-cont" class="space-y-8"></div>
+    </div>
+
+    <script src="script2.js" defer></script>
+</body>
+</html>
